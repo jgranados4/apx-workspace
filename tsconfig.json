@@ -3,6 +3,10 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "apx-formulario": ["./dist/apx-formulario"]
+      // "apx-formularioDev": ["./projects/apx-formulario/src/public-api.ts"]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -22,5 +26,19 @@
     "typeCheckHostBindings": true,
     "strictTemplates": true
   },
-  "files": []
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/apx-formulario/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/apx-formulario/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/apx-componente-app/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/apx-componente-app/tsconfig.spec.json"
+    }
+  ]
 }
