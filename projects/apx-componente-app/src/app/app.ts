@@ -96,6 +96,23 @@ export class App {
       label: 'Destacado',
       value: false,
     },
+    {
+      key: 'password',
+      type: 'password',
+      label: 'Password',
+      required: true,
+      validators: [
+        {
+          name: 'pattern',
+          message:
+            '⚠️ La contraseña no es válida. Debe contener mayúsculas, minúsculas, números y caracteres especiales',
+          args: {
+            pattern:
+              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$',
+          },
+        },
+      ],
+    },
   ];
 
   onSubmit(formData: any) {
