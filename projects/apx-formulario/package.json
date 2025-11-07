@@ -5,7 +5,8 @@
   "version": "0.0.2",
   "peerDependencies": {
     "@angular/common": "^20.3.0",
-    "@angular/core": "^20.3.0"
+    "@angular/core": "^20.3.0",
+    "@angular/material": "^20.2.9"
   },
   "dependencies": {
     "tslib": "^2.3.0"

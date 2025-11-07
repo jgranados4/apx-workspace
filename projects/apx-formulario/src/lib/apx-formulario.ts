@@ -14,7 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AngularMaterialModule } from './angular-material.module';
-import { FieldConfig, ValidatorConfig } from './IField-config.ts';
+import { FieldConfig, StandardValidatorName, ValidatorConfig } from './IField-config.ts';
 
 @Component({
   selector: 'lib-apx-formulario',
@@ -644,45 +644,43 @@ export class ApxFormulario {
     }
   }
 
+  private readonly STANDARD_VALIDATORS: Record<
+    Lowercase<StandardValidatorName>,
+    (args?: ValidatorConfig['args']) => ValidatorFn | null
+  > = {
+    required: () => Validators.required,
+    email: () => Validators.email,
+    requiredtrue: () => Validators.requiredTrue,
+    minlength: (args) =>
+      args?.min !== undefined ? Validators.minLength(args.min) : null,
+    maxlength: (args) =>
+      args?.max !== undefined ? Validators.maxLength(args.max) : null,
+    min: (args) => (args?.min !== undefined ? Validators.min(args.min) : null),
+    max: (args) => (args?.max !== undefined ? Validators.max(args.max) : null),
+    pattern: (args) =>
+      args?.pattern ? Validators.pattern(args.pattern) : null,
+  };
   getValidators(validatorConfigs: ValidatorConfig[]): ValidatorFn[] {
     const validators: ValidatorFn[] = [];
 
     validatorConfigs.forEach((config) => {
-      switch (config.name.toLowerCase()) {
-        case 'required':
-          validators.push(Validators.required);
-          break;
-        case 'email':
-          validators.push(Validators.email);
-          break;
-        case 'minlength':
-          if (config.args?.min !== undefined) {
-            validators.push(Validators.minLength(config.args.min));
-          }
-          break;
-        case 'maxlength':
-          if (config.args?.max !== undefined) {
-            validators.push(Validators.maxLength(config.args.max));
-          }
-          break;
-        case 'min':
-          if (config.args?.min !== undefined) {
-            validators.push(Validators.min(config.args.min));
-          }
-          break;
-        case 'max':
-          if (config.args?.max !== undefined) {
-            validators.push(Validators.max(config.args.max));
-          }
-          break;
-        case 'pattern':
-          if (config.args?.pattern) {
-            validators.push(Validators.pattern(config.args.pattern));
-          }
-          break;
-        case 'requiredtrue':
-          validators.push(Validators.requiredTrue);
-          break;
+      // 1️⃣ Validador personalizado
+      if (config.validatorFn) {
+        validators.push(config.validatorFn);
+        return;
+      }
+      const name =
+        config.name.toLowerCase() as Lowercase<StandardValidatorName>;
+      const validatorFactory = this.STANDARD_VALIDATORS[name];
+
+      // 2️⃣ Validador estándar
+      if (validatorFactory) {
+        const validator = validatorFactory(config.args);
+        if (validator) {
+          validators.push(validator);
+        }
+      } else {
+        console.warn(`⚠️ Validador "${config.name}" no reconocido.`);
       }
     });
 

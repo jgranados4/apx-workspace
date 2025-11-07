@@ -1,3 +1,4 @@
+import {  ValidatorFn } from "@angular/forms";
 // field-config.ts
 export type FieldType =
   | 'text'
@@ -13,15 +14,34 @@ export type FieldType =
   | 'radio'
   | 'slider'
   | 'autocomplete';
+  export type StandardValidatorName =
+    | 'required'
+    | 'email'
+    | 'minlength'
+    | 'maxlength'
+    | 'min'
+    | 'max'
+    | 'pattern'
+    | 'requiredTrue';
+    export interface ValidatorArgs {
+      // Para minlength y min
+      min?: number;
+
+      // Para maxlength y max
+      max?: number;
+
+      // Para pattern
+      pattern?: string | RegExp;
+
+      // Para validadores personalizados (extensible)
+      [key: string]: any;
+    }
 
 export interface ValidatorConfig {
-  name: string; // ej: 'required', 'minLength', etc.
-  args?: {
-    min?: number;
-    max?: number;
-    pattern?: string | RegExp;
-  };
+  name: StandardValidatorName | string;
+  args?: ValidatorArgs;
   message?: string;
+  validatorFn?: ValidatorFn;
 }
 
 export interface FieldOption {
