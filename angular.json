@@ -5,7 +5,7 @@
   "projects": {
     "apx-formulario": {
       "projectType": "library",
-      "root": "projects/apx-formulario",
+      "root": "projects/ui/apx-formulario",
       "sourceRoot": "projects/apx-formulario/src",
       "prefix": "lib",
       "architect": {
@@ -13,10 +13,10 @@
           "builder": "@angular/build:ng-packagr",
           "configurations": {
             "production": {
-              "tsConfig": "projects/apx-formulario/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ui/apx-formulario/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/apx-formulario/tsconfig.lib.json"
+              "tsConfig": "projects/ui/apx-formulario/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -24,7 +24,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "tsConfig": "projects/apx-formulario/tsconfig.spec.json"
+            "tsConfig": "projects/ui/apx-formulario/tsconfig.spec.json"
           }
         }
       }
@@ -32,24 +32,24 @@
     "apx-componente-app": {
       "projectType": "application",
       "schematics": {},
-      "root": "projects/apx-componente-app",
-      "sourceRoot": "projects/apx-componente-app/src",
+      "root": "projects/app/apx-componente-app",
+      "sourceRoot": "projects/app/apx-componente-app/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "browser": "projects/apx-componente-app/src/main.ts",
-            "tsConfig": "projects/apx-componente-app/tsconfig.app.json",
+            "browser": "projects/app/apx-componente-app/src/main.ts",
+            "tsConfig": "projects/app/apx-componente-app/tsconfig.app.json",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/apx-componente-app/public"
+                "input": "projects/app/apx-componente-app/public"
               }
             ],
             "styles": [
-              "projects/apx-componente-app/src/custom-theme.scss",
-              "projects/apx-componente-app/src/styles.css"
+              "projects/app/apx-componente-app/src/custom-theme.scss",
+              "projects/app/apx-componente-app/src/styles.css"
             ]
           },
           "configurations": {
@@ -102,6 +102,32 @@
               }
             ],
             "styles": ["projects/apx-componente-app/src/styles.css"]
+          }
+        }
+      }
+    },
+    "apx-tabla": {
+      "projectType": "library",
+      "root": "projects/ui/apx-tabla",
+      "sourceRoot": "projects/ui/apx-tabla/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ui/apx-tabla/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ui/apx-tabla/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/ui/apx-tabla/tsconfig.spec.json"
           }
         }
       }
