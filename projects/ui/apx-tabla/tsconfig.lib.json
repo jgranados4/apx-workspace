@@ -10,6 +10,7 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
+    "sourceMap": true,
     "types": []
   },
   "include": [
