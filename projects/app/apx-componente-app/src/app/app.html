@@ -1,0 +1,11 @@
+<div class="container">
+  <lib-apx-formulario
+    [fields]="fields"
+    [columns]="'auto'"
+    submitButtonText="Enviar"
+    [showFormStatus]="true"
+    (formValid)="false"
+    (formSubmit)="onSubmit($event)"
+    [allowInvalidSubmit]="false"
+  />
+</div>
