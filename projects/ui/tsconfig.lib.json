@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "sourceMap": true,
+    "types": [],
+    "paths": {
+      "@tu-org/ui": ["../ui/src/public-api.ts"],
+      "@tu-org/ui/apx-formulario": ["../ui/apx-formulario/src/public-api.ts"],
+      "@tu-org/ui/apx-tabla": ["../ui/apx-tabla/src/public-api.ts"]
+    }
+  },
+  "include": ["src/**/*.ts", "apx-formulario/src/**/*.ts", "apx-tabla/src/**/*.ts"],
+  "exclude": ["**/*.spec.ts"]
+}
