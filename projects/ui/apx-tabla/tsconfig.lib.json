@@ -3,9 +3,6 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "paths": {
-      "apx-tablaDev": ["./src/public-api.ts"]
-    },
     "outDir": "../../../out-tsc/lib",
     "declaration": true,
     "declarationMap": true,
