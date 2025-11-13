@@ -1,4 +1,5 @@
 import {  ValidatorFn } from "@angular/forms";
+export type FormFieldValue = string | number | boolean | null | unknown[];
 // field-config.ts
 export type FieldType =
   | 'text'
@@ -34,7 +35,7 @@ export type FieldType =
       pattern?: string | RegExp;
 
       // Para validadores personalizados (extensible)
-      [key: string]: any;
+      [key: string]: unknown;
     }
 
 export interface ValidatorConfig {
@@ -45,7 +46,7 @@ export interface ValidatorConfig {
 }
 
 export interface FieldOption {
-  value: any;
+  value: string | number | boolean;
   label: string;
   disabled?: boolean;
   icon?: string;
@@ -57,6 +58,10 @@ export interface FieldConfig {
   /** Identificador único del campo (name del form control) */
   key: string;
 
+  name?: string;
+
+  autocomplete?: string;
+
   /** Tipo de campo a renderizar */
   type: FieldType;
 
@@ -64,7 +69,7 @@ export interface FieldConfig {
   label: string;
 
   /** Valor inicial del campo */
-  value?: any;
+  value?: unknown;
 
   /** Placeholder para el input */
   placeholder?: string;
@@ -89,7 +94,7 @@ export interface FieldConfig {
   hidden?: boolean;
 
   /** Mostrar campo condicionalmente basado en otros valores del formulario */
-  showWhen?: (formValue: Record<string, any>) => boolean;
+  showWhen?: (formValue: Record<string, unknown>) => boolean;
 
   // ============ LAYOUT Y DISEÑO ============
 

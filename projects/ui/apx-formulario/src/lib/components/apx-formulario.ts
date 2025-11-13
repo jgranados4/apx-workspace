@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
   inject,
   input,
@@ -14,14 +15,21 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { AngularMaterialModule } from '../angular-material.module';
-import { FieldConfig, StandardValidatorName, ValidatorConfig } from '../interface/IField-config.ts';
+import { AngularMaterialModule } from '../material/angular-material.module';
+import { FieldConfig, FormFieldValue, StandardValidatorName, ValidatorConfig } from '../interface/IField-config.ts';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'lib-apx-formulario',
   imports: [ReactiveFormsModule, AngularMaterialModule],
   template: `
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="generic-form">
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      autocomplete="on"
+      name="dynamicForm"
+      class="generic-form"
+    >
       <div class="form-grid" [class]="gridClass()">
         @for (field of visibleFields(); track field.key) {
         <div
@@ -138,13 +146,16 @@ import { FieldConfig, StandardValidatorName, ValidatorConfig } from '../interfac
           <!-- RADIO GROUP -->
           @case ('radio') {
           <div class="radio-group-wrapper">
-            <label class="radio-group-label">
+            <label [for]="field.key + '-radio-group'" class="radio-group-label">
               {{ field.label }}
               @if (field.required) {
               <span class="required-asterisk">*</span>
               }
             </label>
-            <mat-radio-group [formControlName]="field.key">
+            <mat-radio-group
+              [formControlName]="field.key"
+              [id]="field.key + '-radio-group'"
+            >
               @for (opt of field.options ?? []; track opt.value) {
               <mat-radio-button [value]="opt.value">
                 {{ opt.label }}
@@ -164,7 +175,7 @@ import { FieldConfig, StandardValidatorName, ValidatorConfig } from '../interfac
           <!-- SLIDER -->
           @case ('slider') {
           <div class="slider-wrapper">
-            <label class="slider-label">
+            <label [for]="field.key + '-slider'" class="slider-label">
               {{ field.label }}
               @if (field.required) {
               <span class="required-asterisk">*</span>
@@ -177,7 +188,11 @@ import { FieldConfig, StandardValidatorName, ValidatorConfig } from '../interfac
               [disabled]="field.disabled"
               class="full-width"
             >
-              <input matSliderThumb [formControlName]="field.key" />
+              <input
+                matSliderThumb
+                [formControlName]="field.key"
+                [id]="field.key + '-slider'"
+              />
             </mat-slider>
             <div class="slider-value">
               Valor: {{ form.controls[field.key].value }}
@@ -242,6 +257,9 @@ import { FieldConfig, StandardValidatorName, ValidatorConfig } from '../interfac
               [max]="field.max"
               [step]="field.step"
               [maxlength]="field.maxLength!"
+              [attr.name]="field.name || field.key"
+              [attr.autocomplete]="field.autocomplete || 'off'"
+              [attr.id]="field.key"
             />
             @if (field.suffix) {
             <mat-icon matIconSuffix>{{ field.suffix }}</mat-icon>
@@ -566,25 +584,27 @@ export class ApxFormulario {
   isSubmitting = input(false);
 
   // Valores iniciales del formulario
-  initialValues = input<Record<string, any>>({});
+  initialValues = input<Record<string, unknown>>({});
 
   // Outputs
-  formSubmit = output<any>();
+  formSubmit = output<Record<string, unknown>>();
   formCancel = output<void>();
   formReset = output<void>();
-  formChange = output<any>();
+  formChange = output<Record<string, unknown>>();
   formValid = output<boolean>();
 
-  // Estado interno
-  form!: FormGroup;
   private fb = inject(FormBuilder);
+  private destroyRef = inject(DestroyRef);
+  form: FormGroup = this.fb.group({});
 
   // Computed signals
   visibleFields = computed(() => {
     return this.fields().filter((field) => {
       if (field.hidden) return false;
       if (field.showWhen) {
-        return field.showWhen(this.form?.value || {});
+        const currentValue = this.formValue();
+        console.log('valores', currentValue);
+        return field.showWhen(currentValue || {});
       }
       return true;
     });
@@ -594,27 +614,43 @@ export class ApxFormulario {
     const cols = this.columns();
     return `grid-${cols}`;
   });
-  constructor(){
-    effect(()=>{
-       if (!this.form) {
-         this.buildForm();
-         this.setupFormListeners();
-       }
-    })
+  constructor() {
+    effect(() => {
+      const currentFields = this.fields();
+      const currentInitialValues = this.initialValues();
+      if (currentFields.length > 0) {
+        this.buildForm(currentFields, currentInitialValues);
+      }
+    });
+    // effect() para emitir cambios del formulario
+    effect(() => {
+      const value = this.formValue();
+      // Solo emitir si el form fue inicializado correctamente
+      if (Object.keys(value).length > 0) {
+        this.formChange.emit(value);
+      }
+    });
+    effect(() => {
+      const status = this.formStatus();
+      this.formValid.emit(status === 'VALID');
+    });
   }
-  buildForm() {
-    const group: any = {};
-    const initialVals = this.initialValues();
-
-    this.fields().forEach((field) => {
+  buildForm(fields: FieldConfig[], initialVals: Record<string, unknown>) {
+    const group: Record<
+      string,
+      [
+        { value: unknown; disabled: boolean },
+        { validators: ValidatorFn[]; updateOn: 'change' | 'blur' | 'submit' }
+      ]
+    > = {};
+    fields.forEach((field) => {
       const validators = this.getValidators(field.validators || []);
       const initialValue =
         initialVals[field.key] ?? field.value ?? this.getDefaultValue(field);
       // Determinar cuando validar
-      let updateOn: 'change' | 'blur' | 'submit' = 'change';
-      if (field.validateOnBlur) {
-        updateOn = 'blur';
-      }
+      const updateOn: 'change' | 'blur' | 'submit' = field.validateOnBlur
+        ? 'blur'
+        : 'change';
       group[field.key] = [
         { value: initialValue, disabled: field.disabled ?? false },
         { validators: validators, updateOn },
@@ -622,22 +658,8 @@ export class ApxFormulario {
     });
 
     this.form = this.fb.group(group);
-    console.log('error')
   }
-
-  setupFormListeners() {
-    // Emitir cambios del formulario
-    this.form.valueChanges.subscribe((value) => {
-      this.formChange.emit(value);
-    });
-
-    // Emitir estado de validez
-    this.form.statusChanges.subscribe(() => {
-      this.formValid.emit(this.form.valid);
-    });
-  }
-
-  getDefaultValue(field: FieldConfig): any {
+  getDefaultValue(field: FieldConfig): FormFieldValue {
     switch (field.type) {
       case 'checkbox':
         return false;
@@ -651,7 +673,21 @@ export class ApxFormulario {
         return null;
     }
   }
-
+  formValueSignal = toSignal<Record<string,unknown>>(this.form.valueChanges, {
+    requireSync: false,
+    initialValue: this.form.value,
+  });
+  formStatusSignal = toSignal(this.form.statusChanges, {
+    requireSync: false,
+    initialValue: this.form.status as
+      | 'VALID'
+      | 'INVALID'
+      | 'PENDING'
+      | 'DISABLED',
+  });
+  // ✅ Computed signals que LEEN de signals normales
+  formValue = computed(() => this.formValueSignal() ?? {});
+  formStatus = computed(() => this.formStatusSignal() || 'INVALID');
   private readonly STANDARD_VALIDATORS: Record<
     Lowercase<StandardValidatorName>,
     (args?: ValidatorConfig['args']) => ValidatorFn | null
@@ -802,15 +838,15 @@ export class ApxFormulario {
     this.form.reset(this.initialValues());
   }
 
-  patchValue(values: Record<string, any>) {
+  patchValue(values: Record<string, unknown>) {
     this.form.patchValue(values);
   }
 
-  setValue(values: Record<string, any>) {
+  setValue(values: Record<string, unknown>) {
     this.form.setValue(values);
   }
 
-  getFormValue() {
+  getFormValue():Record<string,unknown> {
     return this.form.getRawValue();
   }
 

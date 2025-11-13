@@ -3,9 +3,6 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "paths": {
-      "apx-formularioDev": ["./src/public-api.ts"]
-    },
     "outDir": "../../out-tsc/lib",
     "declaration": true,
     "declarationMap": true,
@@ -13,6 +10,6 @@
     "sourceMap": true,
     "types": []
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "../../../src/setupTests.ts"],
   "exclude": ["**/*.spec.ts"]
 }

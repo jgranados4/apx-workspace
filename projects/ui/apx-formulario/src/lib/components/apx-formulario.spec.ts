@@ -1,23 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { describe, it, expect } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { ApxFormulario } from './apx-formulario';
 
-describe('ApxFormulario', () => {
-  let component: ApxFormulario;
-  let fixture: ComponentFixture<ApxFormulario>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ApxFormulario]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(ApxFormulario);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
+describe('App', () => {
   it('should create', () => {
+    TestBed.configureTestingModule({
+      imports: [ApxFormulario],
+    });
+    
+    const fixture = TestBed.createComponent(ApxFormulario);
+    const component = fixture.componentInstance;
+    
     expect(component).toBeTruthy();
   });
 });
