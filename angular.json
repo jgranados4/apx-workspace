@@ -3,6 +3,34 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "ui": {
+      "projectType": "library",
+      "root": "projects/ui",
+      "sourceRoot": "projects/ui/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ui/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/ui/tsconfig.spec.json",
+            "buildTarget": "ui:build:development",
+            "runner": "vitest"
+          }
+        }
+      }
+    },
     "apx-formulario": {
       "projectType": "library",
       "root": "projects/ui/apx-formulario",
@@ -22,9 +50,21 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/ui/apx-formulario/tsconfig.spec.json"
+            "tsConfig": "projects/ui/apx-formulario/tsconfig.spec.json",
+            "buildTarget": "apx-formulario:build:development",
+            "runner": "vitest"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ui/apx-formulario/**/*.ts",
+              "projects/ui/apx-formulario/**/*.html"
+            ],
+            "eslintConfig": "projects/ui/apx-formulario/eslint.config.js"
           }
         }
       }
@@ -92,42 +132,11 @@
           "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/apx-componente-app/tsconfig.spec.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "projects/apx-componente-app/public"
-              }
-            ],
-            "styles": ["projects/apx-componente-app/src/styles.css"]
-          }
-        }
-      }
-    },
-    "apx-tabla": {
-      "projectType": "library",
-      "root": "projects/ui/apx-tabla",
-      "sourceRoot": "projects/ui/apx-tabla/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:ng-packagr",
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/ui/apx-tabla/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/ui/apx-tabla/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:karma",
-          "options": {
-            "tsConfig": "projects/ui/apx-tabla/tsconfig.spec.json"
+             "buildTarget": "ui:build:development",
+            "runner": "vitest"
           }
         }
       }

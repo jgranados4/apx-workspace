@@ -1,18 +1,22 @@
 {
   "name": "apx-workspace",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test-vitest": "vitest",
     "lint": "ng lint",
-    "apx-formulario:build": "ng build apx-formulario",
-    "apx-formulario:lint": "ng lint apx-formulario",
-    "apx-formulario:test": "ng test apx-formulario --no-watch --no-progress --browsers=ChromeHeadless",
-    "apx-formulario:publish": "npm run apx-formulario:build && npm publish dist/apx-formulario/",
-    "sync-readme": "cp README.md projects/apx-formulario/README.md"
+    "apx-formulario:lint": "ng lint ui",
+    "sync-readmes": "bun run sync-ui-readme",
+    "sync-ui-readme": "cp README.md projects/ui/README.md",
+    "clean": "rimraf dist && ng cache clean",
+    "ui:build": "bun run clean && ng build ui",
+    "ui:build-test": "bun run ui:build && bun run test-vitest",
+    "publish-ui": "bun publish dist/ui --access public",
+    "build-and-publish": "ng build ui && npm publish dist/ui --access public"
   },
   "prettier": {
     "overrides": [
@@ -26,6 +30,9 @@
   },
   "private": true,
   "dependencies": {
+    "@analogjs/platform": "^2.0.4",
+    "@analogjs/vite-plugin-angular": "^2.0.4",
+    "@analogjs/vitest-angular": "^2.0.4",
     "@angular/cdk": "20.2.9",
     "@angular/common": "^20.0.0",
     "@angular/compiler": "^20.0.0",
@@ -40,17 +47,18 @@
     "vitest": "^4.0.8"
   },
   "devDependencies": {
+    "@angular-eslint/builder": "20.5.2",
     "@angular/build": "^20.3.6",
     "@angular/cli": "^20.0.5",
     "@angular/compiler-cli": "^20.0.0",
+    "@eslint/js": "^9.39.0",
     "@types/jasmine": "~5.1.0",
+    "angular-eslint": "20.5.2",
+    "eslint": "^9.39.0",
     "jasmine-core": "~5.7.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^20.3.0",
-    "typescript": "~5.8.2"
+    "rimraf": "^6.1.0",
+    "typescript": "~5.8.2",
+    "typescript-eslint": "8.46.3"
   }
 }
