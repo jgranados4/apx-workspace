@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "paths": {
-      "@tu-org/ui": ["./projects/ui/apx-formulario/src/public-api.ts","./projects/ui/apx-tabla/src/public-api.ts"]
+      "@jgranados199795/apx-ui": ["./projects/ui/apx-formulario/src/public-api.ts","./projects/ui/apx-tabla/src/public-api.ts"]
     },
     "outDir": "./out-tsc/spec",
     "types": ["vitest/globals", "node", "@angular/compiler"],

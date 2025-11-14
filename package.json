@@ -15,7 +15,7 @@
     "sync-ui-readme": "cp README.md projects/ui/README.md",
     "clean": "rimraf dist && ng cache clean",
     "ui:build": "bun run clean && ng build ui",
-    "ui:build-test": "bun run ui:build && bun run test:run",
+    "ui:test-build": "bun run test:run && bun run ui:build",
     "publish-ui": "npm publish dist/ui/ --access public",
     "build-and-publish": "ng build ui && npm publish dist/ui/ --access public"
   },

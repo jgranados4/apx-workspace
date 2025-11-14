@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FieldConfig } from '../../../../ui/apx-formulario/src/lib/interface/IField-config.ts';
-import {ApxFormulario,ApxTabla} from '@tu-org/ui'
+import {ApxFormulario,ApxTabla} from '@jgranados199795/apx-ui'
 export interface PeriodicElement {
   name: string;
   position: number;

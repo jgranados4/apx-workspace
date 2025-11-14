@@ -4,8 +4,8 @@
   "compileOnSave": false,
   "compilerOptions": {
      "paths": {
-      "@tu-org/ui": ["./dist/ui"],
-      "@tu-org/ui/*": ["./dist/ui/*"]
+      "@jgranados199795/apx-ui": ["./dist/ui"],
+      "@jgranados199795/apx-ui/*": ["./dist/ui/*"]
     },
     "strict": true,
     "noImplicitOverride": true,
