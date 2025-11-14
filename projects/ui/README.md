@@ -1,63 +1,180 @@
-# ApxTabla
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.0.
+---
 
-## Code scaffolding
+# 🎨 Apx UI – Componentes dinámicos para Angular
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Una librería modular de componentes para Angular, construida con **standalone components**, **Angular Material**, y soporte completo para **secondary entry points**.
+Diseñada para aplicaciones modernas que requieren componentes reutilizables, configurables y listos para producción.
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## ✨ Características
 
-```bash
-ng generate --help
-```
+* 🔹 Compatible con **Angular 17+**
+* 🔹 Arquitectura modular mediante **secondary entry points**
+* 🔹 Componentes incluidos:
 
-## Building
+  * `apx-formulario` → Formularios dinámicos
+  * `apx-tabla` → Tablas dinámicas
+* 🔹 100% standalone
+* 🔹 Validaciones dinámicas, eventos y bindings reactivos
+* 🔹 Accesible (A11Y)
+* 🔹 Preparado para dark mode y estilos personalizables
+* 🔹 Fácil de ampliar (core compartido)
 
-To build the library, run:
+---
 
-```bash
-ng build apx-tabla
-```
-
-This command will compile your project, and the build artifacts will be placed in the `dist/` directory.
-
-### Publishing the Library
-
-Once the project is built, you can publish your library by following these steps:
-
-1. Navigate to the `dist` directory:
-   ```bash
-   cd dist/apx-tabla
-   ```
-
-2. Run the `npm publish` command to publish your library to the npm registry:
-   ```bash
-   npm publish
-   ```
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## 📦 Instalación
 
 ```bash
-ng test
+npm install apx-ui
 ```
 
-## Running end-to-end tests
+> Si estás usando Angular Standalone o Angular Material, la librería es totalmente compatible.
 
-For end-to-end (e2e) testing, run:
+---
+
+## 🚀 Uso Rápido
+
+### 1️⃣ Importar el formulario dinámico
+
+```ts
+import { Component } from '@angular/core';
+import { ApxFormulario } from 'apx-ui/apx-formulario';
+
+@Component({
+  selector: 'app-demo',
+  standalone: true,
+  imports: [ApxFormulario],
+  template: `
+    <apx-formulario
+      [fields]="fields"
+      (formSubmit)="onSubmit($event)">
+    </apx-formulario>
+  `,
+})
+export class DemoComponent {
+  fields = [
+    { key: 'nombre', type: 'text', label: 'Nombre', validators: [{ name: 'required' }] }
+  ];
+
+  onSubmit(data: any) {
+    console.log('Datos del formulario:', data);
+  }
+}
+```
+
+---
+
+### 2️⃣ Importar la tabla dinámica
+
+```ts
+import { Component } from '@angular/core';
+import { ApxTabla } from 'apx-ui/apx-tabla';
+
+@Component({
+  selector: 'app-users',
+  standalone: true,
+  imports: [ApxTabla],
+  template: `
+    <apx-tabla
+      [data]="users"
+      [columns]="columns"
+      (rowClick)="onRowClick($event)">
+    </apx-tabla>
+  `,
+})
+export class UsersComponent {
+  columns = [
+    { key: 'nombre', label: 'Nombre', sortable: true },
+    { key: 'email', label: 'Email' }
+  ];
+
+  users = [
+    { nombre: 'Jon', email: 'jon@mail.com' },
+  ];
+
+  onRowClick(row: any) {
+    console.log('Fila seleccionada:', row);
+  }
+}
+```
+
+---
+
+## 📚 Entry Points Disponibles
+
+| Entry Point             | Descripción                   |
+| ----------------------- | ----------------------------- |
+| `apx-ui`                | Core y utilidades compartidas |
+| `apx-ui/apx-formulario` | Formulario dinámico           |
+| `apx-ui/apx-tabla`      | Tabla dinámica                |
+
+Cada módulo es independiente y se puede importar según necesidad.
+
+---
+
+## 📁 Estructura del Paquete (publicado)
+
+```
+dist/
+└── apx-ui/
+    ├── apx-formulario/
+    ├── apx-tabla/
+    ├── esm2022/
+    ├── fesm2022/
+    ├── package.json
+    └── README.md
+```
+
+---
+
+## 🔧 Scripts de Desarrollo
+
+### Build
 
 ```bash
-ng e2e
+ng build ui --configuration production
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Publicar en npm
 
-## Additional Resources
+```bash
+cd dist/apx-ui
+npm publish --access public
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## 🧪 Compatibilidad
+
+* Angular **17+**
+* Angular Material opcional
+* Standalone Components
+* RxJS 7+
+
+---
+
+## 🗺️ Roadmap
+
+* `apx-dialog` (en progreso)
+* `apx-wizard`
+* `apx-charts`
+* `apx-layout`
+
+---
+
+## 📄 Licencia
+
+MIT © 2024 – Apx UI
+
+---
+
+Si quieres, puedo generarte también:
+
+✔ El badge de versión de npm
+✔ El package.json final listo para publish
+✔ El README para cada entry point (formulario y tabla)
+✔ Una demo mínima que puedes subir a StackBlitz o GitHub Pages
+
+¿Quieres agregar algo más al README?

@@ -1,6 +1,23 @@
 {
-  "name": "@tu-org/ui",
+  "name": "@jgranados199795/apx-ui",
   "version": "1.0.0",
+  "description": "Librería de componentes Angular",
+  "keywords": [
+    "angular",
+    "components",
+    "ui",
+    "apx"
+  ],
+  "author": "jgranados4",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jgranados4/apx-workspace",
+    "directory": "projects/ui"
+  },
+  "bugs": {
+    "url": "https://github.com/jgranados4/apx-workspace/issues"
+  },
   "peerDependencies": {
     "@angular/common": "^20.0.0",
     "@angular/core": "^20.0.0",

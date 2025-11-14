@@ -31,44 +31,6 @@
         }
       }
     },
-    "apx-formulario": {
-      "projectType": "library",
-      "root": "projects/ui/apx-formulario",
-      "sourceRoot": "projects/apx-formulario/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:ng-packagr",
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/ui/apx-formulario/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/ui/apx-formulario/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "tsConfig": "projects/ui/apx-formulario/tsconfig.spec.json",
-            "buildTarget": "apx-formulario:build:development",
-            "runner": "vitest"
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/ui/apx-formulario/**/*.ts",
-              "projects/ui/apx-formulario/**/*.html"
-            ],
-            "eslintConfig": "projects/ui/apx-formulario/eslint.config.js"
-          }
-        }
-      }
-    },
     "apx-componente-app": {
       "projectType": "application",
       "schematics": {},

@@ -6,17 +6,18 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "test-vitest": "vitest",
+    "ngTest": "ng test",
+    "test": "vitest",
+    "test:run": "vitest run",
     "lint": "ng lint",
     "apx-formulario:lint": "ng lint ui",
     "sync-readmes": "bun run sync-ui-readme",
     "sync-ui-readme": "cp README.md projects/ui/README.md",
     "clean": "rimraf dist && ng cache clean",
     "ui:build": "bun run clean && ng build ui",
-    "ui:build-test": "bun run ui:build && bun run test-vitest",
-    "publish-ui": "bun publish dist/ui --access public",
-    "build-and-publish": "ng build ui && npm publish dist/ui --access public"
+    "ui:build-test": "bun run ui:build && bun run test:run",
+    "publish-ui": "npm publish dist/ui/ --access public",
+    "build-and-publish": "ng build ui && npm publish dist/ui/ --access public"
   },
   "prettier": {
     "overrides": [
