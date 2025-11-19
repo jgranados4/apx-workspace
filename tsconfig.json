@@ -4,9 +4,9 @@
   "compileOnSave": false,
   "compilerOptions": {
      "paths": {
-      "@jgranados199795/apx-ui": ["./dist/ui"],
-      "@jgranados199795/apx-ui/*": ["./dist/ui/*"]
-    },
+       "@jgranados199795/apx-ui": ["./dist/ui"],
+       "@jgranados199795/apx-ui/*": ["./dist/ui/*"]
+     },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -42,6 +42,15 @@
     },
     {
       "path": "./projects/ui/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ui/apx-material/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/ui/apx-material/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ui/apx-tabla/tsconfig.lib.json"
     }
   ]
 }

@@ -97,8 +97,80 @@
           "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/apx-componente-app/tsconfig.spec.json",
-             "buildTarget": "ui:build:development",
+            "buildTarget": "ui:build:development",
             "runner": "vitest"
+          }
+        }
+      }
+    },
+    "apx-formulario": {
+      "projectType": "library",
+      "root": "projects/ui/apx-formulario",
+      "sourceRoot": "projects/ui/apx-formulario/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "options": {
+            "project": "projects/ui/apx-formulario/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ui/apx-formulario/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ui/apx-formulario/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
+    },
+    "apx-tabla": {
+      "projectType": "library",
+      "root": "projects/ui/apx-tabla",
+      "sourceRoot": "projects/ui/apx-tabla/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "options": {
+            "project": "projects/ui/apx-tabla/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ui/apx-tabla/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ui/apx-tabla/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
+    },
+    "apx-material": {
+      "projectType": "library",
+      "root": "projects/ui/apx-tabla",
+      "sourceRoot": "projects/ui/apx-tabla/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ui/apx-material/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ui/apx-material/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/apx-material/tsconfig.spec.json"
           }
         }
       }

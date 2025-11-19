@@ -17,7 +17,7 @@
     "ui:build": "bun run clean && ng build ui",
     "ui:test-build": "bun run test:run && bun run ui:build",
     "publish-ui": "npm publish dist/ui/ --access public",
-    "build-and-publish": "ng build ui && npm publish dist/ui/ --access public"
+    "build-and-publish": " bun run test && ng build ui:build && npm publish dist/ui/ --access public"
   },
   "prettier": {
     "overrides": [
