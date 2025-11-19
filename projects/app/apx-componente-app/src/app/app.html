@@ -8,5 +8,42 @@
     (formSubmit)="onSubmit($event)"
     [allowInvalidSubmit]="false"
   />
-  <lib-apx-tabla [displayedColumns]="displayedColumns" [data]="data" />
+  <lib-apx-tabla [columns]="columns" [data]="users()" [showActions]="true" (Edit)="handleEdit($event)"
+      (Delete)="handleDelete($event)"
+      
+       >
+          <!-- Template custom para la columna 'status' -->
+      <ng-template #cellTemplate let-column="column" let-row="row">
+        @if (column === 'status') {
+          <span 
+            class="status-badge"
+            [class.active]="row.status === 'active'"
+            [class.inactive]="row.status === 'inactive'">
+            {{ row.status === 'active' ? '✓ Activo' : '✗ Inactivo' }}
+          </span>
+        } @else if (column === 'role') {
+          <mat-chip>{{ row.role }}</mat-chip>
+        }
+      </ng-template>
+      
+      <!-- Template custom para acciones adicionales -->
+      <ng-template #actionsTemplate let-row="row">
+        <button 
+          mat-icon-button 
+          [matMenuTriggerFor]="menu"
+          aria-label="Más opciones">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="viewDetails(row)">
+            <mat-icon>visibility</mat-icon>
+            Ver detalles
+          </button>
+          <button mat-menu-item (click)="resetPassword(row)">
+            <mat-icon>lock_reset</mat-icon>
+            Resetear contraseña
+          </button>
+        </mat-menu>
+      </ng-template>
+      </lib-apx-tabla>
 </div>

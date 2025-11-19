@@ -1,18 +1,18 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
+    "outDir": "../../dist/ui",
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
     "sourceMap": true,
-    "types": [],
     "paths": {
-      "@jgranados199795/apx-ui": ["../ui/src/public-api.ts"],
-      "@jgranados199795/apx-ui/apx-formulario": ["../ui/apx-formulario/src/public-api.ts"],
-      "@jgranados199795/apx-ui/apx-tabla": ["../ui/apx-tabla/src/public-api.ts"]
+      "@jgranados199795/apx-ui": ["./src/public-api.ts"],
+      "@jgranados199795/apx-ui/apx-formulario": ["./apx-formulario/src/public-api.ts"],
+      "@jgranados199795/apx-ui/apx-tabla": ["./apx-tabla/src/public-api.ts"],
+      "@jgranados199795/apx-ui/apx-material":["./apx-material/src/public-api.ts"]
     }
   },
-  "include": ["src/**/*.ts", "apx-formulario/src/**/*.ts", "apx-tabla/src/**/*.ts"],
+  "include": ["src/**/*.ts", "apx-formulario/src/**/*.ts", "apx-tabla/src/**/*.ts","apx-material/src/**/*.ts"],
   "exclude": ["**/*.spec.ts"]
 }

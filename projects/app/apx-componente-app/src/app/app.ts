@@ -1,37 +1,23 @@
 import { Component, signal } from '@angular/core';
-import { FieldConfig } from '../../../../ui/apx-formulario/src/lib/interface/IField-config.ts';
-import {ApxFormulario,ApxTabla} from '@jgranados199795/apx-ui'
+import {ApxFormulario,ApxTabla, TableAction, TableColumn,FieldConfig} from '@jgranados199795/apx-ui';
+import {MaterialModule} from '@jgranados199795/apx-ui/apx-material'
 export interface PeriodicElement {
   name: string;
   position: number;
   weight: number;
   symbol: string;
 }
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  { position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na' },
-  { position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg' },
-  { position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al' },
-  { position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si' },
-  { position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P' },
-  { position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S' },
-  { position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl' },
-  { position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar' },
-  { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
-  { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
-];
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  status: 'active' | 'inactive';
+  role: string;
+}
+
 @Component({
   selector: 'lib-root',
-  imports: [ApxFormulario, ApxTabla],
+  imports: [ApxFormulario, ApxTabla,MaterialModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -152,6 +138,80 @@ export class App {
   onSubmit(formData: unknown) {
     console.log('Form data:', formData);
   }
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
-  data = ELEMENT_DATA;
+  columns: TableColumn<User>[] = [
+    { key: 'id', label: 'ID' },
+    { key: 'name', label: 'Nombre' },
+    { key: 'email', label: 'Email' },
+     { 
+      key: 'status', 
+      label: 'Estado', 
+      useTemplate: true, // Usa el template custom
+      width: '120px' 
+    },
+    {
+      key: 'role',
+      label: 'Rol',
+      useTemplate: true, // Usa el template custom
+    },
+  ];
+  users = signal<User[]>([
+    {
+      id: 1,
+      name: 'Juan Pérez',
+      email: 'juan@example.com',
+      status: 'active',
+      role: 'Admin',
+    },
+    {
+      id: 2,
+      name: 'María García',
+      email: 'maria@example.com',
+      status: 'active',
+      role: 'User',
+    },
+    {
+      id: 3,
+      name: 'Carlos López',
+      email: 'carlos@example.com',
+      status: 'inactive',
+      role: 'User',
+    },
+  ]);
+  handleEdit(event: TableAction<User>): void {
+    console.log('Editando usuario:', event.row);
+
+    // Aquí podrías abrir un dialog de edición
+    // const dialogRef = this.dialog.open(EditUserDialog, {
+    //   data: event.row
+    // });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result) {
+    //     this.users.update(users =>
+    //       users.map(u => u.id === event.row.id ? result : u)
+    //     );
+    //   }
+    // });
+  }
+
+  // Manejar eliminación
+  handleDelete(event: TableAction<User>): void {
+    console.log('Eliminando usuario:', event.row);
+
+    // Aquí podrías mostrar un dialog de confirmación
+    const confirmed = confirm(`¿Eliminar a ${event.row.name}?`);
+
+    if (confirmed) {
+      // Remover del signal
+      this.users.update((users) => users.filter((u) => u.id !== event.row.id));
+    }
+  }
+    // Acciones custom
+  viewDetails(user: User): void {
+    console.log('Ver detalles de:', user);
+  }
+  
+  resetPassword(user: User): void {
+    console.log('Resetear contraseña de:', user);
+  }
 }
