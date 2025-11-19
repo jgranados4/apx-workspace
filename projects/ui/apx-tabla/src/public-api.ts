@@ -3,4 +3,3 @@
  */
 
 export * from './lib/components/apx-tabla';
-export * from './lib/material/material.module'
