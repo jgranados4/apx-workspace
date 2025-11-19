@@ -15,13 +15,12 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { AngularMaterialModule } from '../material/angular-material.module';
 import { FieldConfig, FormFieldValue, StandardValidatorName, ValidatorConfig } from '../interface/IField-config.ts';
 import { toSignal } from '@angular/core/rxjs-interop';
-
+import {MaterialModule } from '@jgranados199795/apx-ui/apx-material'
 @Component({
   selector: 'lib-apx-formulario',
-  imports: [ReactiveFormsModule, AngularMaterialModule],
+  imports: [ReactiveFormsModule, MaterialModule],
   template: `
     <form
       [formGroup]="form"
@@ -673,7 +672,7 @@ export class ApxFormulario {
         return null;
     }
   }
-  formValueSignal = toSignal<Record<string,unknown>>(this.form.valueChanges, {
+  formValueSignal = toSignal<Record<string, unknown>>(this.form.valueChanges, {
     requireSync: false,
     initialValue: this.form.value,
   });
@@ -846,7 +845,7 @@ export class ApxFormulario {
     this.form.setValue(values);
   }
 
-  getFormValue():Record<string,unknown> {
+  getFormValue(): Record<string, unknown> {
     return this.form.getRawValue();
   }
 

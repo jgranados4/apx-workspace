@@ -3,12 +3,16 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../out-tsc/lib",
+    "outDir": "../../../out-tsc/lib",
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
     "sourceMap": true,
-    "types": []
+    "paths": {
+      "@jgranados199795/apx-ui/apx-material": [
+        "../apx-material/src/public-api.ts"
+      ]
+    }
   },
   "include": ["src/**/*.ts", "../../../src/setupTests.ts"],
   "exclude": ["**/*.spec.ts"]
