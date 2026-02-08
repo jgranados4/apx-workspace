@@ -12,7 +12,6 @@ Librería de componentes Angular modernos y reutilizables construida con **Angul
 npm install @jgranados199795/apx-ui @angular/material @angular/cdk
 ```
 
-
 ## 🚀 Componentes Disponibles
 
 ### 1. ApxFormulario - Formularios Dinámicos
@@ -22,65 +21,57 @@ Crea formularios complejos con validaciones avanzadas y múltiples tipos de camp
 #### Uso Básico
 
 ```typescript
-import { Component } from '@angular/core';
-import { ApxFormulario } from '@jgranados199795/apx-ui/apx-formulario';
+import { Component } from "@angular/core";
+import { ApxFormulario } from "@jgranados199795/apx-ui/apx-formulario";
 
 @Component({
   standalone: true,
   imports: [ApxFormulario],
-  template: `
-    <apx-formulario
-      [fields]="campos"
-      (formSubmit)="onSubmit($event)"
-      submitButtonText="Guardar"
-      [showFormStatus]="true"
-    >
-    </apx-formulario>
-  `,
+  template: ` <apx-formulario [fields]="campos" (formSubmit)="onSubmit($event)" submitButtonText="Guardar" [showFormStatus]="true"> </apx-formulario> `,
 })
 export class MiComponente {
   campos = [
-    { 
-      key: 'nombre', 
-      type: 'text', 
-      label: 'Nombre completo', 
+    {
+      key: "nombre",
+      type: "text",
+      label: "Nombre completo",
       required: true,
-      placeholder: 'Ingresa tu nombre'
+      placeholder: "Ingresa tu nombre",
     },
-    { 
-      key: 'email', 
-      type: 'email', 
-      label: 'Correo electrónico',
+    {
+      key: "email",
+      type: "email",
+      label: "Correo electrónico",
       required: true,
-      validators: [{ name: 'email', message: 'Email inválido' }]
+      validators: [{ name: "email", message: "Email inválido" }],
     },
-    { 
-      key: 'edad', 
-      type: 'number', 
-      label: 'Edad',
+    {
+      key: "edad",
+      type: "number",
+      label: "Edad",
       min: 18,
-      max: 100
+      max: 100,
     },
-    { 
-      key: 'pais', 
-      type: 'select', 
-      label: 'País',
+    {
+      key: "pais",
+      type: "select",
+      label: "País",
       options: [
-        { value: 'cr', label: 'Costa Rica' },
-        { value: 'mx', label: 'México' },
-        { value: 'es', label: 'España' }
-      ]
+        { value: "cr", label: "Costa Rica" },
+        { value: "mx", label: "México" },
+        { value: "es", label: "España" },
+      ],
     },
-    { 
-      key: 'terminos', 
-      type: 'checkbox', 
-      label: 'Acepto los términos y condiciones',
-      required: true
-    }
+    {
+      key: "terminos",
+      type: "checkbox",
+      label: "Acepto los términos y condiciones",
+      required: true,
+    },
   ];
 
   onSubmit(datos: any) {
-    console.log('Datos del formulario:', datos);
+    console.log("Datos del formulario:", datos);
     // Enviar a tu API aquí
   }
 }
@@ -88,22 +79,23 @@ export class MiComponente {
 
 #### Tipos de Campos Disponibles
 
-| Tipo | Descripción | Ejemplo |
-|------|-------------|---------|
-| `text` | Campo de texto | `{ type: 'text', label: 'Nombre' }` |
-| `email` | Email con validación | `{ type: 'email', validators: [{name: 'email'}] }` |
-| `number` | Números | `{ type: 'number', min: 0, max: 100 }` |
-| `select` | Dropdown | `{ type: 'select', options: [...] }` |
-| `checkbox` | Casilla | `{ type: 'checkbox', label: 'Acepto' }` |
-| `textarea` | Texto multilínea | `{ type: 'textarea', rows: 4 }` |
-| `date` | Selector de fecha | `{ type: 'date', minDate: new Date() }` |
-| `radio` | Botones de opción | `{ type: 'radio', options: [...] }` |
-| `slider` | Control deslizante | `{ type: 'slider', min: 0, max: 100 }` |
-| `autocomplete` | Autocompletado | `{ type: 'autocomplete', options: [...] }` |
+| Tipo           | Descripción          | Ejemplo                                            |
+| -------------- | -------------------- | -------------------------------------------------- |
+| `text`         | Campo de texto       | `{ type: 'text', label: 'Nombre' }`                |
+| `email`        | Email con validación | `{ type: 'email', validators: [{name: 'email'}] }` |
+| `number`       | Números              | `{ type: 'number', min: 0, max: 100 }`             |
+| `select`       | Dropdown             | `{ type: 'select', options: [...] }`               |
+| `checkbox`     | Casilla              | `{ type: 'checkbox', label: 'Acepto' }`            |
+| `textarea`     | Texto multilínea     | `{ type: 'textarea', rows: 4 }`                    |
+| `date`         | Selector de fecha    | `{ type: 'date', minDate: new Date() }`            |
+| `radio`        | Botones de opción    | `{ type: 'radio', options: [...] }`                |
+| `slider`       | Control deslizante   | `{ type: 'slider', min: 0, max: 100 }`             |
+| `autocomplete` | Autocompletado       | `{ type: 'autocomplete', options: [...] }`         |
 
 #### API de ApxFormulario
 
 **Inputs:**
+
 - `fields: FieldConfig[]` - Configuración de campos
 - `columns: 1 | 2 | 3 | 4 | 'auto'` - Columnas del grid (default: 2)
 - `submitButtonText: string` - Texto del botón enviar (default: 'Enviar')
@@ -111,6 +103,7 @@ export class MiComponente {
 - `initialValues: Record<string, unknown>` - Valores iniciales
 
 **Outputs:**
+
 - `formSubmit: Record<string, unknown>` - Se emite al enviar el formulario
 - `formChange: Record<string, unknown>` - Se emite en cada cambio
 - `formValid: boolean` - Estado de validación
@@ -124,8 +117,8 @@ Tablas con paginación, sorting, acciones y templates personalizables.
 #### Uso Básico
 
 ```typescript
-import { Component } from '@angular/core';
-import { ApxTabla } from '@jgranados199795/apx-ui/apx-tabla';
+import { Component } from "@angular/core";
+import { ApxTabla } from "@jgranados199795/apx-ui/apx-tabla";
 
 interface Usuario {
   id: number;
@@ -137,41 +130,29 @@ interface Usuario {
 @Component({
   standalone: true,
   imports: [ApxTabla],
-  template: `
-    <apx-tabla
-      [data]="usuarios"
-      [columns]="columnas"
-      [showActions]="true"
-      [showEditButton]="true"
-      [showDeleteButton]="true"
-      (Edit)="editarUsuario($event)"
-      (Delete)="eliminarUsuario($event)"
-      [pageSize]="10"
-    >
-    </apx-tabla>
-  `,
+  template: ` <apx-tabla [data]="usuarios" [columns]="columnas" [showActions]="true" [showEditButton]="true" [showDeleteButton]="true" (Edit)="editarUsuario($event)" (Delete)="eliminarUsuario($event)" [pageSize]="10"> </apx-tabla> `,
 })
 export class ListaUsuariosComponent {
   columnas = [
-    { key: 'id', label: 'ID', width: '80px' },
-    { key: 'nombre', label: 'Nombre', sortable: true },
-    { key: 'email', label: 'Email' },
-    { key: 'rol', label: 'Rol' }
+    { key: "id", label: "ID", width: "80px" },
+    { key: "nombre", label: "Nombre", sortable: true },
+    { key: "email", label: "Email" },
+    { key: "rol", label: "Rol" },
   ];
 
   usuarios: Usuario[] = [
-    { id: 1, nombre: 'Ana García', email: 'ana@ejemplo.com', rol: 'Admin' },
-    { id: 2, nombre: 'Luis Martínez', email: 'luis@ejemplo.com', rol: 'User' },
-    { id: 3, nombre: 'María López', email: 'maria@ejemplo.com', rol: 'User' }
+    { id: 1, nombre: "Ana García", email: "ana@ejemplo.com", rol: "Admin" },
+    { id: 2, nombre: "Luis Martínez", email: "luis@ejemplo.com", rol: "User" },
+    { id: 3, nombre: "María López", email: "maria@ejemplo.com", rol: "User" },
   ];
 
   editarUsuario(accion: any) {
-    console.log('Editar usuario:', accion.row);
+    console.log("Editar usuario:", accion.row);
     // Abrir diálogo de edición
   }
 
   eliminarUsuario(accion: any) {
-    console.log('Eliminar usuario:', accion.row);
+    console.log("Eliminar usuario:", accion.row);
     // Mostrar confirmación y eliminar
   }
 }
@@ -246,6 +227,7 @@ export class TablaAvanzadaComponent {
 #### API de ApxTabla
 
 **Inputs:**
+
 - `data: T[]` - Datos a mostrar
 - `columns: TableColumn<T>[]` - Configuración de columnas
 - `showActions: boolean` - Mostrar columna de acciones
@@ -254,6 +236,7 @@ export class TablaAvanzadaComponent {
 - `pageSize: number` - Elementos por página (default: 5)
 
 **Outputs:**
+
 - `Edit: TableAction<T>` - Se emite al hacer click en editar
 - `Delete: TableAction<T>` - Se emite al hacer click en eliminar
 - `Action: TableAction<T>` - Para acciones custom
@@ -266,18 +249,18 @@ export class TablaAvanzadaComponent {
 
 ```typescript
 campos = [
-  { 
-    key: 'nombre', 
-    type: 'text', 
-    label: 'Nombre',
-    fieldSize: 'medium'  // 'small' | 'medium' | 'large' | 'full'
+  {
+    key: "nombre",
+    type: "text",
+    label: "Nombre",
+    fieldSize: "medium", // 'small' | 'medium' | 'large' | 'full'
   },
-  { 
-    key: 'descripcion', 
-    type: 'textarea', 
-    label: 'Descripción',
-    fieldSize: 'full'  // Ocupa todo el ancho
-  }
+  {
+    key: "descripcion",
+    type: "textarea",
+    label: "Descripción",
+    fieldSize: "full", // Ocupa todo el ancho
+  },
 ];
 ```
 
@@ -286,19 +269,19 @@ campos = [
 ```typescript
 campos = [
   {
-    key: 'password',
-    type: 'password', 
-    label: 'Contraseña',
+    key: "password",
+    type: "password",
+    label: "Contraseña",
     validators: [
-      { name: 'required', message: 'La contraseña es obligatoria' },
-      { name: 'minlength', args: { min: 6 }, message: 'Mínimo 6 caracteres' },
-      { 
-        name: 'pattern', 
-        args: { pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$' },
-        message: 'Debe contener mayúsculas, minúsculas y números'
-      }
-    ]
-  }
+      { name: "required", message: "La contraseña es obligatoria" },
+      { name: "minlength", args: { min: 6 }, message: "Mínimo 6 caracteres" },
+      {
+        name: "pattern",
+        args: { pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$" },
+        message: "Debe contener mayúsculas, minúsculas y números",
+      },
+    ],
+  },
 ];
 ```
 
@@ -307,20 +290,20 @@ campos = [
 ```typescript
 campos = [
   {
-    key: 'tipoUsuario',
-    type: 'select',
-    label: 'Tipo de Usuario',
+    key: "tipoUsuario",
+    type: "select",
+    label: "Tipo de Usuario",
     options: [
-      { value: 'regular', label: 'Usuario Regular' },
-      { value: 'premium', label: 'Usuario Premium' }
-    ]
+      { value: "regular", label: "Usuario Regular" },
+      { value: "premium", label: "Usuario Premium" },
+    ],
   },
   {
-    key: 'codigoPremium',
-    type: 'text',
-    label: 'Código Premium',
-    showWhen: (values) => values.tipoUsuario === 'premium'
-  }
+    key: "codigoPremium",
+    type: "text",
+    label: "Código Premium",
+    showWhen: (values) => values.tipoUsuario === "premium",
+  },
 ];
 ```
 
@@ -330,24 +313,25 @@ Importa solo lo que necesites:
 
 ```typescript
 // Solo formularios
-import { ApxFormulario } from '@jgranados199795/apx-ui/apx-formulario';
+import { ApxFormulario } from "@jgranados199795/apx-ui/apx-formulario";
 
 // Solo tablas
-import { ApxTabla } from '@jgranados199795/apx-ui/apx-tabla';
+import { ApxTabla } from "@jgranados199795/apx-ui/apx-tabla";
 
 // Angular Material centralizado
-import { MaterialModule } from '@jgranados199795/apx-ui/apx-material';
+import { MaterialModule } from "@jgranados199795/apx-ui/apx-material";
 ```
 
 ## 🔧 Métodos Públicos
 
 ### ApxFormulario
+
 ```typescript
 // Obtener valores actuales
 const valores = formulario.getFormValue();
 
 // Establecer valores
-formulario.setValue({ nombre: 'Juan', email: 'juan@ejemplo.com' });
+formulario.setValue({ nombre: "Juan", email: "juan@ejemplo.com" });
 
 // Resetear formulario
 formulario.resetForm();
@@ -357,6 +341,7 @@ formulario.markAsTouched();
 ```
 
 ### ApxTabla
+
 ```typescript
 // Obtener página actual
 const paginaActual = tabla.getCurrentPage();
@@ -368,15 +353,19 @@ tabla.goToPage(2);
 ## 🐛 Solución de Problemas
 
 ### Error: "Material components not found"
+
 Asegúrate de tener instalado Angular Material:
+
 ```bash
 npm install @angular/material @angular/cdk
 ```
 
 ### Los estilos no se aplican
+
 Importa los temas de Angular Material en tu `styles.css`:
+
 ```css
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
 ```
 
 ## 🤝 Contribuir
@@ -396,6 +385,7 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) par
 ## 👨‍💻 Autor
 
 **jgranados4**
+
 - GitHub: [@jgranados4](https://github.com/jgranados4)
 - npm: [@jgranados199795](https://www.npmjs.com/~jgranados199795)
 

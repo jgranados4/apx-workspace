@@ -28,6 +28,16 @@
             "buildTarget": "ui:build:development",
             "runner": "vitest"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ui/**/*.ts",
+              "projects/ui/**/*.html"
+            ],
+            "eslintConfig": "projects/ui/eslint.config.js"
+          }
         }
       }
     },
@@ -99,6 +109,16 @@
             "tsConfig": "projects/apx-componente-app/tsconfig.spec.json",
             "buildTarget": "ui:build:development",
             "runner": "vitest"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/app/apx-componente-app/**/*.ts",
+              "projects/app/apx-componente-app/**/*.html"
+            ],
+            "eslintConfig": "projects/app/apx-componente-app/eslint.config.js"
           }
         }
       }

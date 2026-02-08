@@ -1,4 +1,3 @@
-
 import '@analogjs/vitest-angular/setup-snapshots';
 import '@angular/compiler';
 import { provideZonelessChangeDetection, NgModule } from '@angular/core';
@@ -13,5 +12,5 @@ import {
 export class ZonelessTestModule {}
 getTestBed().initTestEnvironment(
   [BrowserTestingModule, ZonelessTestModule],
-  platformBrowserTesting()
+  platformBrowserTesting(),
 );

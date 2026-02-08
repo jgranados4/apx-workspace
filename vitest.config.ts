@@ -1,4 +1,3 @@
-
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
 
@@ -11,14 +10,13 @@ export default defineConfig(({ mode }) => ({
     include: ['projects/**/*.spec.ts'],
     server: {
       deps: {
-        inline: ['@angular/**','@analogjs/**'],
+        inline: ['@angular/**', '@analogjs/**'],
       },
     },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
     },
-    
   },
   define: {
     'import.meta.vitest': mode !== 'production',

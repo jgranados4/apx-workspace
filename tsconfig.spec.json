@@ -1,9 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "paths": {
-      
-    },
+    "paths": {},
     "outDir": "./out-tsc/spec",
     "types": ["vitest/globals", "node", "@angular/compiler"],
     "esModuleInterop": true,

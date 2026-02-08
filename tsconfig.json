@@ -3,10 +3,10 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-     "paths": {
-       "@jgranados199795/apx-ui": ["./dist/ui"],
-       "@jgranados199795/apx-ui/*": ["./dist/ui/*"]
-     },
+    "paths": {
+      "@jgranados199795/apx-ui": ["./dist/ui"],
+      "@jgranados199795/apx-ui/*": ["./dist/ui/*"]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
