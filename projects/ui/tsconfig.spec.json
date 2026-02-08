@@ -4,7 +4,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/ui/out-tsc/spec",
-    "types": ["vitest/globals", "node", "@angular/compiler"],
+    "types": ["vitest/globals", "node", "@angular/compiler"]
   },
   "files": ["../../src/setupTests.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]

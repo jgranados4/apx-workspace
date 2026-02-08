@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgTemplateOutlet } from '@angular/common';
 export interface TableColumn<T> {
   /** Identificador único de la columna (debe coincidir con propiedad del objeto) */
-  key: Extract<keyof T,string> | 'actions';
+  key: Extract<keyof T, string> | 'actions';
 
   /** Etiqueta a mostrar en el header */
   label: string;
@@ -35,96 +35,104 @@ export interface TableAction<T> {
 }
 @Component({
   selector: 'lib-apx-tabla',
-  imports: [NgTemplateOutlet, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule],
+  imports: [
+    NgTemplateOutlet,
+    MatTableModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
   template: `
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource">
         <!-- Columnas de datos -->
-        @for (column of columns(); track column.key) { @if (column.key !==
-        'actions') {
-        <ng-container [matColumnDef]="column.key">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            [style.width]="column.width"
-            [class]="column.cssClass"
-          >
-            {{ column.label }}
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element; let i = index"
-            [class]="column.cssClass"
-          >
-            <!-- Template custom proyectado -->
-            @if (column.useTemplate && cellTemplate()) {
-            <ng-container
-              *ngTemplateOutlet="
-                cellTemplate()!;
-                context: {
-                  column: column.key,
-                  row: element,
-                  index: i
+        @for (column of columns(); track column.key) {
+          @if (column.key !== 'actions') {
+            <ng-container [matColumnDef]="column.key">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                [style.width]="column.width"
+                [class]="column.cssClass"
+              >
+                {{ column.label }}
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element; let i = index"
+                [class]="column.cssClass"
+              >
+                <!-- Template custom proyectado -->
+                @if (column.useTemplate && cellTemplate()) {
+                  <ng-container
+                    *ngTemplateOutlet="
+                      cellTemplate()!;
+                      context: {
+                        column: column.key,
+                        row: element,
+                        index: i,
+                      }
+                    "
+                  >
+                  </ng-container>
+                } @else {
+                  <!-- Renderizado por defecto -->
+                  {{ element[column.key] }}
                 }
-              "
-            >
+              </td>
             </ng-container>
-            } @else {
-            <!-- Renderizado por defecto -->
-            {{ element[column.key] }}
-            }
-          </td>
-        </ng-container>
-        } }
+          }
+        }
 
         <!-- Columna de acciones -->
         @if (showActions()) {
-        <ng-container matColumnDef="actions">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            [style.width]="actionsColumnWidth()"
-          >
-            {{ actionsLabel() }}
-          </th>
-          <td mat-cell *matCellDef="let element; let i = index">
-            <div class="action-buttons">
-              @if (showEditButton()) {
-              <button
-                mat-icon-button
-                color="primary"
-                [attr.aria-label]="'Editar ' + element"
-                (click)="handleEdit(element, i)"
-              >
-                <mat-icon>edit</mat-icon>
-              </button>
-              } @if (showDeleteButton()) {
-              <button
-                mat-icon-button
-                color="warn"
-                [attr.aria-label]="'Eliminar ' + element"
-                (click)="handleDelete(element, i)"
-              >
-                <mat-icon>delete</mat-icon>
-              </button>
-              }
+          <ng-container matColumnDef="actions">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              [style.width]="actionsColumnWidth()"
+            >
+              {{ actionsLabel() }}
+            </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+              <div class="action-buttons">
+                @if (showEditButton()) {
+                  <button
+                    mat-icon-button
+                    color="primary"
+                    [attr.aria-label]="'Editar ' + element"
+                    (click)="handleEdit(element, i)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                }
+                @if (showDeleteButton()) {
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    [attr.aria-label]="'Eliminar ' + element"
+                    (click)="handleDelete(element, i)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                }
 
-              <!-- Template custom para acciones adicionales -->
-              @if (actionsTemplate()) {
-              <ng-container
-                *ngTemplateOutlet="
-                  actionsTemplate()!;
-                  context: {
-                    row: element,
-                    index: i
-                  }
-                "
-              >
-              </ng-container>
-              }
-            </div>
-          </td>
-        </ng-container>
+                <!-- Template custom para acciones adicionales -->
+                @if (actionsTemplate()) {
+                  <ng-container
+                    *ngTemplateOutlet="
+                      actionsTemplate()!;
+                      context: {
+                        row: element,
+                        index: i,
+                      }
+                    "
+                  >
+                  </ng-container>
+                }
+              </div>
+            </td>
+          </ng-container>
         }
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -132,14 +140,14 @@ export interface TableAction<T> {
 
         <!-- Fila cuando no hay datos -->
         @if (dataSource.data.length === 0) {
-        <tr class="mat-row no-data-row">
-          <td
-            [attr.colspan]="displayedColumns.length"
-            class="mat-cell no-data-cell"
-          >
-            {{ noDataMessage() }}
-          </td>
-        </tr>
+          <tr class="mat-row no-data-row">
+            <td
+              [attr.colspan]="displayedColumns.length"
+              class="mat-cell no-data-cell"
+            >
+              {{ noDataMessage() }}
+            </td>
+          </tr>
         }
       </table>
       <ng-content></ng-content>
@@ -152,21 +160,23 @@ export interface TableAction<T> {
       </mat-paginator>
     </div>
   `,
-  styles: ` .action-buttons {
+  styles: `
+    .action-buttons {
       display: flex;
       gap: 4px;
       align-items: center;
     }
-    
+
     .no-data-row {
       height: 100px;
     }
-    
+
     .no-data-cell {
       text-align: center;
       color: rgba(0, 0, 0, 0.54);
       font-style: italic;
-    }`,
+    }
+  `,
 })
 export class ApxTabla<T> {
   columns = input.required<TableColumn<T>[]>();
@@ -219,16 +229,16 @@ export class ApxTabla<T> {
     return this.showActions() ? [...cols, 'actions'] : cols;
   }
   constructor() {
-     afterRenderEffect({
-       write: () => {
-         this.dataSource.data = this.data();
+    afterRenderEffect({
+      write: () => {
+        this.dataSource.data = this.data();
 
-         const paginatorInstance = this.paginator();
-         if (this.dataSource.paginator !== paginatorInstance) {
-           this.dataSource.paginator = paginatorInstance;
-         }
-       },
-     });
+        const paginatorInstance = this.paginator();
+        if (this.dataSource.paginator !== paginatorInstance) {
+          this.dataSource.paginator = paginatorInstance;
+        }
+      },
+    });
   }
   /**
    * Maneja el evento de editar una fila

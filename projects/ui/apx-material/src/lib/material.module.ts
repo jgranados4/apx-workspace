@@ -13,10 +13,10 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {MatTreeModule} from '@angular/material/tree';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatSortModule} from '@angular/material/sort';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSortModule } from '@angular/material/sort';
 
 const MATERIAL_MODULES = [
   MatFormFieldModule,
@@ -36,10 +36,10 @@ const MATERIAL_MODULES = [
   MatTreeModule,
   MatChipsModule,
   MatMenuModule,
-  MatSortModule
+  MatSortModule,
 ];
 
 @NgModule({
-  exports:[ MATERIAL_MODULES],
+  exports: [MATERIAL_MODULES],
 })
 export class MaterialModule {}
