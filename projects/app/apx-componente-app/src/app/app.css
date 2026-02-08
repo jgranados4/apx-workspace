@@ -10,19 +10,19 @@ h2 {
   color: #3f51b5;
   margin-bottom: 1.5rem;
 }
- .status-badge {
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 500;
-      
-      &.active {
-        background: #e8f5e9;
-        color: #2e7d32;
-      }
-      
-      &.inactive {
-        background: #ffebee;
-        color: #c62828;
-      }
-    }
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+
+  &.active {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &.inactive {
+    background: #ffebee;
+    color: #c62828;
+  }
+}

@@ -1,6 +1,12 @@
 import { Component, signal } from '@angular/core';
-import {ApxFormulario,ApxTabla, TableAction, TableColumn,FieldConfig} from '@jgranados199795/apx-ui';
-import {MaterialModule} from '@jgranados199795/apx-ui/apx-material'
+import {
+  ApxFormulario,
+  ApxTabla,
+  TableAction,
+  TableColumn,
+  FieldConfig,
+} from '@jgranados199795/apx-ui';
+import { MaterialModule } from '@jgranados199795/apx-ui/apx-material';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -17,7 +23,7 @@ interface User {
 
 @Component({
   selector: 'lib-root',
-  imports: [ApxFormulario, ApxTabla,MaterialModule],
+  imports: [ApxFormulario, ApxTabla, MaterialModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -142,11 +148,11 @@ export class App {
     { key: 'id', label: 'ID' },
     { key: 'name', label: 'Nombre' },
     { key: 'email', label: 'Email' },
-     { 
-      key: 'status', 
-      label: 'Estado', 
+    {
+      key: 'status',
+      label: 'Estado',
       useTemplate: true, // Usa el template custom
-      width: '120px' 
+      width: '120px',
     },
     {
       key: 'role',
@@ -206,11 +212,11 @@ export class App {
       this.users.update((users) => users.filter((u) => u.id !== event.row.id));
     }
   }
-    // Acciones custom
+  // Acciones custom
   viewDetails(user: User): void {
     console.log('Ver detalles de:', user);
   }
-  
+
   resetPassword(user: User): void {
     console.log('Resetear contraseña de:', user);
   }
