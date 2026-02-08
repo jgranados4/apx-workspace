@@ -8,8 +8,7 @@
     "declarationMap": true,
     "inlineSources": true,
     "sourceMap": true,
-    "paths": {
-    }
+    "paths": {}
   },
   "include": ["ui/**/*.ts"],
   "exclude": ["**/*.spec.ts"]

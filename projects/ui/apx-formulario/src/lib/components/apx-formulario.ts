@@ -15,10 +15,15 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { FieldConfig, FormFieldValue, StandardValidatorName, ValidatorConfig } from '../interface/IField-config.ts';
+import {
+  FieldConfig,
+  FormFieldValue,
+  StandardValidatorName,
+  ValidatorConfig,
+} from '../interface/IField-config.ts';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -46,7 +51,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatRadioModule,
     MatSliderModule,
     MatAutocompleteModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   template: `
     <form
@@ -58,283 +63,297 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     >
       <div class="form-grid" [class]="gridClass()">
         @for (field of visibleFields(); track field.key) {
-        <div
-          class="form-field-wrapper"
-          [class]="getFieldClass(field)"
-          [attr.data-field-type]="field.type"
-        >
-          @switch (field.type) {
-
-          <!-- CHECKBOX -->
-          @case ('checkbox') {
-          <mat-checkbox
-            [formControlName]="field.key"
-            [attr.aria-label]="field.label"
+          <div
+            class="form-field-wrapper"
+            [class]="getFieldClass(field)"
+            [attr.data-field-type]="field.type"
           >
-            {{ field.label }}
-            @if (field.required) {
-            <span class="required-asterisk" aria-hidden="true">*</span>
-            }
-          </mat-checkbox>
-          @if (hasError(field.key)) {
-          <mat-error class="checkbox-error">
-            {{ getErrorMessage(field) }}
-          </mat-error>
-          } }
+            @switch (field.type) {
+              <!-- CHECKBOX -->
+              @case ('checkbox') {
+                <mat-checkbox
+                  [formControlName]="field.key"
+                  [attr.aria-label]="field.label"
+                >
+                  {{ field.label }}
+                  @if (field.required) {
+                    <span class="required-asterisk" aria-hidden="true">*</span>
+                  }
+                </mat-checkbox>
+                @if (hasError(field.key)) {
+                  <mat-error class="checkbox-error">
+                    {{ getErrorMessage(field) }}
+                  </mat-error>
+                }
+              }
 
-          <!-- SELECT -->
-          @case ('select') {
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>
-              {{ field.label }}
-              @if (field.required) {
-              <span class="required-asterisk">*</span>
+              <!-- SELECT -->
+              @case ('select') {
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>
+                    {{ field.label }}
+                    @if (field.required) {
+                      <span class="required-asterisk">*</span>
+                    }
+                  </mat-label>
+                  <mat-select
+                    [formControlName]="field.key"
+                    [multiple]="field.multiple"
+                  >
+                    @for (opt of field.options ?? []; track opt.value) {
+                      <mat-option [value]="opt.value">
+                        {{ opt.label }}
+                      </mat-option>
+                    }
+                  </mat-select>
+                  @if (field.hint) {
+                    <mat-hint>{{ field.hint }}</mat-hint>
+                  }
+                  @if (hasError(field.key)) {
+                    <mat-error>{{ getErrorMessage(field) }}</mat-error>
+                  }
+                </mat-form-field>
               }
-            </mat-label>
-            <mat-select
-              [formControlName]="field.key"
-              [multiple]="field.multiple"
-            >
-              @for (opt of field.options ?? []; track opt.value) {
-              <mat-option [value]="opt.value">
-                {{ opt.label }}
-              </mat-option>
-              }
-            </mat-select>
-            @if (field.hint) {
-            <mat-hint>{{ field.hint }}</mat-hint>
-            } @if (hasError(field.key)) {
-            <mat-error>{{ getErrorMessage(field) }}</mat-error>
-            }
-          </mat-form-field>
-          }
 
-          <!-- DATE PICKER -->
-          @case ('date') {
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>
-              {{ field.label }}
-              @if (field.required) {
-              <span class="required-asterisk">*</span>
+              <!-- DATE PICKER -->
+              @case ('date') {
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>
+                    {{ field.label }}
+                    @if (field.required) {
+                      <span class="required-asterisk">*</span>
+                    }
+                  </mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    [formControlName]="field.key"
+                    [placeholder]="field.placeholder || ''"
+                    [min]="field.minDate"
+                    [max]="field.maxDate"
+                  />
+                  <mat-datepicker-toggle matIconSuffix [for]="picker">
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  @if (field.hint) {
+                    <mat-hint>{{ field.hint }}</mat-hint>
+                  }
+                  @if (hasError(field.key)) {
+                    <mat-error>{{ getErrorMessage(field) }}</mat-error>
+                  }
+                </mat-form-field>
               }
-            </mat-label>
-            <input
-              matInput
-              [matDatepicker]="picker"
-              [formControlName]="field.key"
-              [placeholder]="field.placeholder || ''"
-              [min]="field.minDate"
-              [max]="field.maxDate"
-            />
-            <mat-datepicker-toggle matIconSuffix [for]="picker">
-            </mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            @if (field.hint) {
-            <mat-hint>{{ field.hint }}</mat-hint>
-            } @if (hasError(field.key)) {
-            <mat-error>{{ getErrorMessage(field) }}</mat-error>
-            }
-          </mat-form-field>
-          }
 
-          <!-- TEXTAREA -->
-          @case ('textarea') {
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>
-              {{ field.label }}
-              @if (field.required) {
-              <span class="required-asterisk">*</span>
+              <!-- TEXTAREA -->
+              @case ('textarea') {
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>
+                    {{ field.label }}
+                    @if (field.required) {
+                      <span class="required-asterisk">*</span>
+                    }
+                  </mat-label>
+                  <textarea
+                    matInput
+                    [formControlName]="field.key"
+                    [placeholder]="field.placeholder || ''"
+                    [rows]="field.rows || 3"
+                    [maxlength]="field.maxLength!"
+                    cdkTextareaAutosize
+                    [cdkAutosizeMinRows]="field.rows || 3"
+                    [cdkAutosizeMaxRows]="field.maxRows || 10"
+                  >
+                  </textarea>
+                  @if (field.hint) {
+                    <mat-hint>{{ field.hint }}</mat-hint>
+                  }
+                  @if (field.maxLength) {
+                    <mat-hint align="end">
+                      {{ getCharacterCount(field.key) }} / {{ field.maxLength }}
+                    </mat-hint>
+                  }
+                  @if (hasError(field.key)) {
+                    <mat-error>{{ getErrorMessage(field) }}</mat-error>
+                  }
+                </mat-form-field>
               }
-            </mat-label>
-            <textarea
-              matInput
-              [formControlName]="field.key"
-              [placeholder]="field.placeholder || ''"
-              [rows]="field.rows || 3"
-              [maxlength]="field.maxLength!"
-              cdkTextareaAutosize
-              [cdkAutosizeMinRows]="field.rows || 3"
-              [cdkAutosizeMaxRows]="field.maxRows || 10"
-            >
-            </textarea>
-            @if (field.hint) {
-            <mat-hint>{{ field.hint }}</mat-hint>
-            } @if (field.maxLength) {
-            <mat-hint align="end">
-              {{ getCharacterCount(field.key) }} / {{ field.maxLength }}
-            </mat-hint>
-            } @if (hasError(field.key)) {
-            <mat-error>{{ getErrorMessage(field) }}</mat-error>
-            }
-          </mat-form-field>
-          }
 
-          <!-- RADIO GROUP -->
-          @case ('radio') {
-          <div class="radio-group-wrapper">
-            <label [for]="field.key + '-radio-group'" class="radio-group-label">
-              {{ field.label }}
-              @if (field.required) {
-              <span class="required-asterisk">*</span>
+              <!-- RADIO GROUP -->
+              @case ('radio') {
+                <div class="radio-group-wrapper">
+                  <label
+                    [for]="field.key + '-radio-group'"
+                    class="radio-group-label"
+                  >
+                    {{ field.label }}
+                    @if (field.required) {
+                      <span class="required-asterisk">*</span>
+                    }
+                  </label>
+                  <mat-radio-group
+                    [formControlName]="field.key"
+                    [id]="field.key + '-radio-group'"
+                  >
+                    @for (opt of field.options ?? []; track opt.value) {
+                      <mat-radio-button [value]="opt.value">
+                        {{ opt.label }}
+                      </mat-radio-button>
+                    }
+                  </mat-radio-group>
+                  @if (field.hint) {
+                    <mat-hint class="radio-hint">{{ field.hint }}</mat-hint>
+                  }
+                  @if (hasError(field.key)) {
+                    <mat-error class="radio-error">
+                      {{ getErrorMessage(field) }}
+                    </mat-error>
+                  }
+                </div>
               }
-            </label>
-            <mat-radio-group
-              [formControlName]="field.key"
-              [id]="field.key + '-radio-group'"
-            >
-              @for (opt of field.options ?? []; track opt.value) {
-              <mat-radio-button [value]="opt.value">
-                {{ opt.label }}
-              </mat-radio-button>
+
+              <!-- SLIDER -->
+              @case ('slider') {
+                <div class="slider-wrapper">
+                  <label [for]="field.key + '-slider'" class="slider-label">
+                    {{ field.label }}
+                    @if (field.required) {
+                      <span class="required-asterisk">*</span>
+                    }
+                  </label>
+                  <mat-slider
+                    [min]="field.min || 0"
+                    [max]="field.max || 100"
+                    [step]="field.step || 1"
+                    [disabled]="field.disabled"
+                    class="full-width"
+                  >
+                    <input
+                      matSliderThumb
+                      [formControlName]="field.key"
+                      [id]="field.key + '-slider'"
+                    />
+                  </mat-slider>
+                  <div class="slider-value">
+                    Valor: {{ form.controls[field.key].value }}
+                  </div>
+                  @if (field.hint) {
+                    <mat-hint class="slider-hint">{{ field.hint }}</mat-hint>
+                  }
+                </div>
               }
-            </mat-radio-group>
-            @if (field.hint) {
-            <mat-hint class="radio-hint">{{ field.hint }}</mat-hint>
-            } @if (hasError(field.key)) {
-            <mat-error class="radio-error">
-              {{ getErrorMessage(field) }}
-            </mat-error>
+
+              <!-- AUTOCOMPLETE -->
+              @case ('autocomplete') {
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>
+                    {{ field.label }}
+                    @if (field.required) {
+                      <span class="required-asterisk">*</span>
+                    }
+                  </mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    [formControlName]="field.key"
+                    [matAutocomplete]="auto"
+                    [placeholder]="field.placeholder || ''"
+                  />
+                  <mat-autocomplete #auto="matAutocomplete">
+                    @for (opt of field.options ?? []; track opt.value) {
+                      <mat-option [value]="opt.value">
+                        {{ opt.label }}
+                      </mat-option>
+                    }
+                  </mat-autocomplete>
+                  @if (field.prefix) {
+                    <mat-icon matIconPrefix>{{ field.prefix }}</mat-icon>
+                  }
+                  @if (field.hint) {
+                    <mat-hint>{{ field.hint }}</mat-hint>
+                  }
+                  @if (hasError(field.key)) {
+                    <mat-error>{{ getErrorMessage(field) }}</mat-error>
+                  }
+                </mat-form-field>
+              }
+
+              <!-- INPUT DEFAULT (text, number, email, password, tel, url) -->
+              @default {
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>
+                    {{ field.label }}
+                    @if (field.required) {
+                      <span class="required-asterisk">*</span>
+                    }
+                  </mat-label>
+                  @if (field.prefix) {
+                    <mat-icon matIconPrefix>{{ field.prefix }}</mat-icon>
+                  }
+                  <input
+                    matInput
+                    [type]="field.type"
+                    [formControlName]="field.key"
+                    [placeholder]="field.placeholder || ''"
+                    [min]="field.min"
+                    [max]="field.max"
+                    [step]="field.step"
+                    [maxlength]="field.maxLength!"
+                    [attr.name]="field.name || field.key"
+                    [attr.autocomplete]="field.autocomplete || 'off'"
+                    [attr.id]="field.key"
+                  />
+                  @if (field.suffix) {
+                    <mat-icon matIconSuffix>{{ field.suffix }}</mat-icon>
+                  }
+                  @if (field.hint) {
+                    <mat-hint>{{ field.hint }}</mat-hint>
+                  }
+                  @if (hasError(field.key)) {
+                    <mat-error>{{ getErrorMessage(field) }}</mat-error>
+                  }
+                </mat-form-field>
+              }
             }
           </div>
-          }
-
-          <!-- SLIDER -->
-          @case ('slider') {
-          <div class="slider-wrapper">
-            <label [for]="field.key + '-slider'" class="slider-label">
-              {{ field.label }}
-              @if (field.required) {
-              <span class="required-asterisk">*</span>
-              }
-            </label>
-            <mat-slider
-              [min]="field.min || 0"
-              [max]="field.max || 100"
-              [step]="field.step || 1"
-              [disabled]="field.disabled"
-              class="full-width"
-            >
-              <input
-                matSliderThumb
-                [formControlName]="field.key"
-                [id]="field.key + '-slider'"
-              />
-            </mat-slider>
-            <div class="slider-value">
-              Valor: {{ form.controls[field.key].value }}
-            </div>
-            @if (field.hint) {
-            <mat-hint class="slider-hint">{{ field.hint }}</mat-hint>
-            }
-          </div>
-          }
-
-          <!-- AUTOCOMPLETE -->
-          @case ('autocomplete') {
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>
-              {{ field.label }}
-              @if (field.required) {
-              <span class="required-asterisk">*</span>
-              }
-            </mat-label>
-            <input
-              type="text"
-              matInput
-              [formControlName]="field.key"
-              [matAutocomplete]="auto"
-              [placeholder]="field.placeholder || ''"
-            />
-            <mat-autocomplete #auto="matAutocomplete">
-              @for (opt of field.options ?? []; track opt.value) {
-              <mat-option [value]="opt.value">
-                {{ opt.label }}
-              </mat-option>
-              }
-            </mat-autocomplete>
-            @if (field.prefix) {
-            <mat-icon matIconPrefix>{{ field.prefix }}</mat-icon>
-            } @if (field.hint) {
-            <mat-hint>{{ field.hint }}</mat-hint>
-            } @if (hasError(field.key)) {
-            <mat-error>{{ getErrorMessage(field) }}</mat-error>
-            }
-          </mat-form-field>
-          }
-
-          <!-- INPUT DEFAULT (text, number, email, password, tel, url) -->
-          @default {
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>
-              {{ field.label }}
-              @if (field.required) {
-              <span class="required-asterisk">*</span>
-              }
-            </mat-label>
-            @if (field.prefix) {
-            <mat-icon matIconPrefix>{{ field.prefix }}</mat-icon>
-            }
-            <input
-              matInput
-              [type]="field.type"
-              [formControlName]="field.key"
-              [placeholder]="field.placeholder || ''"
-              [min]="field.min"
-              [max]="field.max"
-              [step]="field.step"
-              [maxlength]="field.maxLength!"
-              [attr.name]="field.name || field.key"
-              [attr.autocomplete]="field.autocomplete || 'off'"
-              [attr.id]="field.key"
-            />
-            @if (field.suffix) {
-            <mat-icon matIconSuffix>{{ field.suffix }}</mat-icon>
-            } @if (field.hint) {
-            <mat-hint>{{ field.hint }}</mat-hint>
-            } @if (hasError(field.key)) {
-            <mat-error>{{ getErrorMessage(field) }}</mat-error>
-            }
-          </mat-form-field>
-          } }
-        </div>
         }
       </div>
 
       <!-- Estado del formulario -->
       @if (showFormStatus()) {
-      <div class="form-status" [class.invalid]="form.invalid">
-        @if (form.invalid) {
-        <mat-icon>error_outline</mat-icon>
-        <span>Por favor, corrige los errores antes de continuar</span>
-        } @else {
-        <mat-icon>check_circle</mat-icon>
-        <span>Formulario válido</span>
-        }
-      </div>
+        <div class="form-status" [class.invalid]="form.invalid">
+          @if (form.invalid) {
+            <mat-icon>error_outline</mat-icon>
+            <span>Por favor, corrige los errores antes de continuar</span>
+          } @else {
+            <mat-icon>check_circle</mat-icon>
+            <span>Formulario válido</span>
+          }
+        </div>
       }
 
       <!-- Botones de acción -->
       <div class="form-actions" [class]="actionsAlign()">
         @if (showResetButton()) {
-        <button
-          mat-button
-          type="button"
-          (click)="onReset()"
-          [disabled]="isSubmitting() || form.pristine"
-        >
-          <mat-icon>refresh</mat-icon>
-          {{ resetButtonText() }}
-        </button>
-        } @if (showCancelButton()) {
-        <button
-          mat-stroked-button
-          type="button"
-          (click)="onCancel()"
-          [disabled]="isSubmitting()"
-        >
-          <mat-icon>close</mat-icon>
-          {{ cancelButtonText() }}
-        </button>
+          <button
+            mat-button
+            type="button"
+            (click)="onReset()"
+            [disabled]="isSubmitting() || form.pristine"
+          >
+            <mat-icon>refresh</mat-icon>
+            {{ resetButtonText() }}
+          </button>
+        }
+        @if (showCancelButton()) {
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="onCancel()"
+            [disabled]="isSubmitting()"
+          >
+            <mat-icon>close</mat-icon>
+            {{ cancelButtonText() }}
+          </button>
         }
 
         <button
@@ -344,9 +363,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
           [disabled]="(form.invalid && !allowInvalidSubmit()) || isSubmitting()"
         >
           @if (isSubmitting()) {
-          <mat-spinner diameter="20" class="inline-spinner"></mat-spinner>
+            <mat-spinner diameter="20" class="inline-spinner"></mat-spinner>
           } @else {
-          <mat-icon>send</mat-icon>
+            <mat-icon>send</mat-icon>
           }
           {{ submitButtonText() }}
         </button>
@@ -354,7 +373,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     </form>
   `,
   styles: `
-  .generic-form {
+    .generic-form {
       width: 100%;
       max-width: 100%;
       container-type: inline-size;
@@ -367,16 +386,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     }
 
     /* Layouts responsivos con Container Queries */
-    .grid-1 { grid-template-columns: 1fr; }
-    
+    .grid-1 {
+      grid-template-columns: 1fr;
+    }
+
     .grid-2 {
       grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     }
-    
+
     .grid-3 {
       grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
     }
-    
+
     .grid-4 {
       grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
     }
@@ -394,9 +415,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     }
 
     @container (min-width: 900px) {
-      .grid-2 { grid-template-columns: repeat(2, 1fr); }
-      .grid-3 { grid-template-columns: repeat(3, 1fr); }
-      .grid-4 { grid-template-columns: repeat(4, 1fr); }
+      .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .grid-4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
     }
 
     .form-field-wrapper {
@@ -406,10 +433,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     }
 
     /* Clases de tamaño de campo */
-    .field-small { grid-column: span 1; }
-    .field-medium { grid-column: span 2; }
-    .field-large { grid-column: span 3; }
-    .field-full { grid-column: 1 / -1; }
+    .field-small {
+      grid-column: span 1;
+    }
+    .field-medium {
+      grid-column: span 2;
+    }
+    .field-large {
+      grid-column: span 3;
+    }
+    .field-full {
+      grid-column: 1 / -1;
+    }
 
     @container (max-width: 600px) {
       .field-small,
@@ -529,10 +564,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
       align-items: center;
     }
 
-    .form-actions.align-left { justify-content: flex-start; }
-    .form-actions.align-center { justify-content: center; }
-    .form-actions.align-right { justify-content: flex-end; }
-    .form-actions.align-space-between { justify-content: space-between; }
+    .form-actions.align-left {
+      justify-content: flex-start;
+    }
+    .form-actions.align-center {
+      justify-content: center;
+    }
+    .form-actions.align-right {
+      justify-content: flex-end;
+    }
+    .form-actions.align-space-between {
+      justify-content: space-between;
+    }
 
     .form-actions button {
       min-width: 100px;
@@ -666,7 +709,7 @@ export class ApxFormulario {
       string,
       [
         { value: unknown; disabled: boolean },
-        { validators: ValidatorFn[]; updateOn: 'change' | 'blur' | 'submit' }
+        { validators: ValidatorFn[]; updateOn: 'change' | 'blur' | 'submit' },
       ]
     > = {};
     fields.forEach((field) => {

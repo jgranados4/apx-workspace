@@ -7,10 +7,10 @@ describe('App', () => {
     TestBed.configureTestingModule({
       imports: [ApxFormulario],
     });
-    
+
     const fixture = TestBed.createComponent(ApxFormulario);
     const component = fixture.componentInstance;
-    
+
     expect(component).toBeTruthy();
   });
 });
