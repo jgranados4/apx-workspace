@@ -7,8 +7,6 @@
     "inlineSources": true,
     "sourceMap": true,
     "paths": {
-      "@jgranados199795/apx-ui": ["./dist/ui"],
-       "@jgranados199795/apx-ui/*": ["./dist/ui/*"]
     }
   },
   "include": ["ui/**/*.ts"],

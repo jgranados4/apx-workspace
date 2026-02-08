@@ -47,9 +47,6 @@
       "path": "./projects/ui/apx-material/tsconfig.lib.json"
     },
     {
-      "path": "./projects/ui/apx-material/tsconfig.spec.json"
-    },
-    {
       "path": "./projects/ui/apx-tabla/tsconfig.lib.json"
     }
   ]
