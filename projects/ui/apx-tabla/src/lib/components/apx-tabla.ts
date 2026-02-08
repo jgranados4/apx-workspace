@@ -7,10 +7,11 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { NgTemplateOutlet } from '@angular/common';
-import {MaterialModule} from '@jgranados199795/apx-ui/apx-material'
 export interface TableColumn<T> {
   /** Identificador único de la columna (debe coincidir con propiedad del objeto) */
   key: Extract<keyof T,string> | 'actions';
@@ -34,7 +35,7 @@ export interface TableAction<T> {
 }
 @Component({
   selector: 'lib-apx-tabla',
-  imports: [MaterialModule, NgTemplateOutlet],
+  imports: [NgTemplateOutlet, MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule],
   template: `
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource">

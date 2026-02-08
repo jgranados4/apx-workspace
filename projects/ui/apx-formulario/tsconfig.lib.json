@@ -9,11 +9,10 @@
     "inlineSources": true,
     "sourceMap": true,
     "paths": {
-      "@jgranados199795/apx-ui/apx-material": [
-        "../apx-material/src/public-api.ts"
-      ]
+      "@jgranados199795/apx-ui": ["./dist/ui"],
+       "@jgranados199795/apx-ui/*": ["./dist/ui/*"]
     }
   },
-  "include": ["src/**/*.ts", "../../../src/setupTests.ts"],
+  "include": ["ui/**/*.ts"],
   "exclude": ["**/*.spec.ts"]
 }

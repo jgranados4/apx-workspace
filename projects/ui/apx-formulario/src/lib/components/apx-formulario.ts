@@ -17,10 +17,37 @@ import {
 } from '@angular/forms';
 import { FieldConfig, FormFieldValue, StandardValidatorName, ValidatorConfig } from '../interface/IField-config.ts';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {MaterialModule } from '@jgranados199795/apx-ui/apx-material'
+import { MatButtonModule } from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'lib-apx-formulario',
-  imports: [ReactiveFormsModule, MaterialModule],
+  imports: [
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    TextFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatIconModule,
+    MatRadioModule,
+    MatSliderModule,
+    MatAutocompleteModule,
+    MatProgressSpinnerModule
+  ],
   template: `
     <form
       [formGroup]="form"

@@ -6,7 +6,6 @@ import { ApxTabla } from './apx-tabla';
 describe('ApxTablaComponent', () => {
   it('should create', () => {
     TestBed.configureTestingModule({
-      imports: [ApxTabla],
     });
 
     const fixture = TestBed.createComponent(ApxTabla);

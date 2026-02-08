@@ -9,9 +9,6 @@
     "inlineSources": true,
     "sourceMap": true,
     "paths": {
-      "@jgranados199795/apx-ui/apx-material": [
-        "../apx-material/src/public-api.ts"
-      ]
     }
   },
   "include": [
